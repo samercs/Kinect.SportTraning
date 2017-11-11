@@ -1,4 +1,5 @@
-﻿using LightBuzz.Vitruvius;
+﻿using System.Linq;
+using LightBuzz.Vitruvius;
 using Microsoft.Kinect;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,9 @@ namespace LightBuzz.Vituvius.Samples.WPF
         JointType _start1 = JointType.HandRight;
         JointType _center1 = JointType.SpineShoulder;
         JointType _end1 = JointType.SpineBase;
+
+        private int PassCount { get; set; } = 0;
+        private bool StartOne { get; set; } = false;
 
 
 
@@ -90,10 +94,8 @@ namespace LightBuzz.Vituvius.Samples.WPF
                 if (frame != null)
                 {
                     var bodies = frame.Bodies();
-
                     _playersController.Update(bodies);
-
-                    Body body = bodies.Closest();
+                    Body body = bodies.First();
 
                     if (body != null)
                     {
@@ -112,6 +114,19 @@ namespace LightBuzz.Vituvius.Samples.WPF
                         {
                             lblMsg.Content = "Greate ... !";
                             lblMsg.Foreground = Brushes.Green;
+                            if (StartOne)
+                            {
+                                ++PassCount;
+                                TblCount.Text = PassCount.ToString();
+                                StartOne = false;
+                            }
+                            
+                        }
+                        else if ((int) angle1.Angle < 30)
+                        {
+                            StartOne = true;
+                            lblMsg.Content = "Please move your hand up";
+                            lblMsg.Foreground = Brushes.Red;
                         }
                         else
                         {
@@ -125,6 +140,16 @@ namespace LightBuzz.Vituvius.Samples.WPF
 
         void UserReporter_BodyEntered(object sender, PlayersControllerEventArgs e)
         {
+            if (e.Players.Count >= 2)
+            {
+                viewer.Clear();
+                angle1.Clear();
+                tblAngle1.Text = "-";
+                PassCount = 0;
+                TblCount.Text = PassCount.ToString();
+                lblMsg.Content = "We Just Allow Single Player";
+            }
+
         }
 
         void UserReporter_BodyLeft(object sender, PlayersControllerEventArgs e)
@@ -132,7 +157,8 @@ namespace LightBuzz.Vituvius.Samples.WPF
             viewer.Clear();
             angle1.Clear();
             tblAngle1.Text = "-";
-
+            PassCount = 0;
+            TblCount.Text = PassCount.ToString();
         }
     }
 }

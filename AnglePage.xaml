@@ -26,7 +26,7 @@
                     Style="{StaticResource NavigationBackButtonNormalStyle}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"/>
-            <TextBlock x:Name="pageTitle" Text="Angles" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
+            <TextBlock x:Name="pageTitle" Text="Back" Style="{StaticResource HeaderTextBlockStyle}" Grid.Column="1" 
                        IsHitTestVisible="false" TextWrapping="NoWrap" VerticalAlignment="Center" />
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
                 <Border Width="80">
@@ -50,7 +50,17 @@
             </Viewbox>
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                <Border Width="250">
+                    <Border.Background>
+                        <SolidColorBrush Color="Green" Opacity="0.7" />
+                    </Border.Background>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Run x:Name="TblPassCountText" Text="Pass Count" /> <Run x:Name="TblCount" Text="0" />
+                    </TextBlock>
+                </Border>
+            </StackPanel>
             <Label Name="lblMsg" Foreground="Red" Content="" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
         </Grid>
     </Grid>
