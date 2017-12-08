@@ -12,6 +12,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="400" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -20,7 +21,8 @@
             <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="25" Source="/Assets/logo.png" />
             <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource ButtonTileStyle}" Content="Shoulder Flies 90" Click="Angle_Click" />
             <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource ButtonTileStyle}" Content="Shoulder Flies 180" Click="Angle02_Click"  />
-            
+            <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource ButtonTileStyle}" Content="Shoulder And Legs" Click="Angle03_Click" />
+            <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource ButtonTileStyle}" Content="Special Training" Click="Angle04_Click"  />
         </Grid>
     </Grid>
 </Page>

@@ -155,6 +155,7 @@ namespace LightBuzz.Vituvius.Samples.WPF
             viewer.Clear();
             angle1.Clear();
             tblAngle1.Text = "-";
+            EmailService.SendEmail(PassCount, "Shoulder Flies 90");
             PassCount = 0;
             TblCount.Text = PassCount.ToString();
         }

@@ -11,22 +11,24 @@ namespace LightBuzz.Vituvius.Samples.WPF
     /// <summary>
     /// Interaction logic for AnglePage.xaml
     /// </summary>
-    public partial class AnglePage02 : Page
+    public partial class AnglePage03 : Page
     {
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
         PlayersController _playersController;
 
-        JointType _start1 = JointType.HandRight;
+        JointType _start1 = JointType.ElbowRight;
         JointType _center1 = JointType.SpineShoulder;
         JointType _end1 = JointType.SpineBase;
+
+        JointType _start2 = JointType.KneeLeft;
+        JointType _center2 = JointType.SpineBase;
+        JointType _end2 = JointType.KneeRight;
 
         private int PassCount { get; set; } = 0;
         private bool StartOne { get; set; } = false;
 
-
-
-        public AnglePage02()
+        public AnglePage03()
         {
             InitializeComponent();
 
@@ -94,7 +96,9 @@ namespace LightBuzz.Vituvius.Samples.WPF
                 if (frame != null)
                 {
                     var bodies = frame.Bodies();
+
                     _playersController.Update(bodies);
+
                     Body body = bodies.First();
 
                     if (body != null)
@@ -102,27 +106,41 @@ namespace LightBuzz.Vituvius.Samples.WPF
                         viewer.DrawBody(body);
 
                         angle1.Update(body.Joints[_start1], body.Joints[_center1], body.Joints[_end1], 50);
+                        angle2.Update(body.Joints[_start2], body.Joints[_center2], body.Joints[_end2], 50);
 
                         tblAngle1.Text = ((int)angle1.Angle).ToString();
+                        tblAngle2.Text = ((int)angle2.Angle).ToString();
 
-                        if ((int)angle1.Angle >= 181)
+                        if ((int)angle1.Angle >= 95)
                         {
                             lblMsg.Content = "Please move your hand down";
                             lblMsg.Foreground = Brushes.Red;
                         }
-                        else if ((int)angle1.Angle <= 180 && (int)angle1.Angle >= 160)
+                        else if ((int)angle1.Angle <= 95 && (int)angle1.Angle >= 80)
                         {
-                            lblMsg.Content = "Greate ... !";
-                            lblMsg.Foreground = Brushes.Green;
-                            if (StartOne)
+                            if ((int) angle2.Angle <= 310 && (int) angle2.Angle >= 300)
                             {
-                                ++PassCount;
-                                TblCount.Text = PassCount.ToString();
-                                StartOne = false;
+                                lblMsg.Content = "Greate ... !";
+                                lblMsg.Foreground = Brushes.Green;
+                                if (StartOne)
+                                {
+                                    ++PassCount;
+                                    TblCount.Text = PassCount.ToString();
+                                    StartOne = false;
+                                }
                             }
-                            
+                            else if ((int) angle2.Angle > 310)
+                            {
+                                lblMsg.Content = "Please move the two legs away from each other";
+                                lblMsg.Foreground = Brushes.Red;
+                            }
+                            else
+                            {
+                                lblMsg.Content = "Please move the two legs closer";
+                                lblMsg.Foreground = Brushes.Red;
+                            }
                         }
-                        else if ((int) angle1.Angle < 30)
+                        else if ((int)angle1.Angle <= 40)
                         {
                             StartOne = true;
                             lblMsg.Content = "Please move your hand up";
@@ -133,6 +151,7 @@ namespace LightBuzz.Vituvius.Samples.WPF
                             lblMsg.Content = "Please move your hand up";
                             lblMsg.Foreground = Brushes.Red;
                         }
+
                     }
                 }
             }
@@ -149,7 +168,6 @@ namespace LightBuzz.Vituvius.Samples.WPF
                 TblCount.Text = PassCount.ToString();
                 lblMsg.Content = "We Just Allow Single Player";
             }
-
         }
 
         void UserReporter_BodyLeft(object sender, PlayersControllerEventArgs e)
@@ -157,7 +175,7 @@ namespace LightBuzz.Vituvius.Samples.WPF
             viewer.Clear();
             angle1.Clear();
             tblAngle1.Text = "-";
-            EmailService.SendEmail(PassCount, "Shoulder Flies 180");
+            EmailService.SendEmail(PassCount, "Shoulder And Legs");
             PassCount = 0;
             TblCount.Text = PassCount.ToString();
         }

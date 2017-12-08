@@ -26,6 +26,16 @@ namespace LightBuzz.Vituvius.Samples.WPF
             NavigationService.Navigate(new AnglePage02());
         }
 
+        private void Angle03_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AnglePage03());
+        }
+
+        private void Angle04_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AnglePage04());
+        }
+
 
     }
 }
